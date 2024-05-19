@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task } from 'src/entities';
-import AppError from 'src/shared/utils/app-error.utils';
 import { CreateTaskDto, UpdateTaskDto } from '../dtos';
 import { UserService } from 'src/module/user';
+import AppError from 'src/shared/utils/app-error.utils';
+import { EventEmitter } from 'events';
 
 @Injectable()
 export class TaskService {
@@ -13,6 +14,9 @@ export class TaskService {
     private readonly taskRepository: Repository<Task>,
     private readonly userService: UserService,
   ) {}
+  readonly taskCreatedEvent = new EventEmitter();
+  readonly taskUpdatedEvent = new EventEmitter();
+  readonly taskDeletedEvent = new EventEmitter();
 
   async create(userId, createTaskDto: CreateTaskDto): Promise<Partial<Task>> {
     const userExists = await this.userService.findById(userId);
@@ -33,6 +37,7 @@ export class TaskService {
       ...createTaskDto,
     });
     await this.taskRepository.insert(task);
+    this.taskCreatedEvent.emit(task as any);
     return task.toPayload();
   }
 
@@ -64,7 +69,7 @@ export class TaskService {
     const updatedTask = await this.taskRepository.findOne({
       where: { id: taskId },
     });
-
+    this.taskUpdatedEvent.emit(updatedTask as any);
     if (!updatedTask) {
       throw new AppError('0002', 'Failed to update task');
     }
@@ -76,6 +81,7 @@ export class TaskService {
     if (!task || task.userId !== userId) {
       throw new AppError('0002', 'Task not found');
     }
+    this.taskDeletedEvent.emit({ taskId } as any);
     return this.taskRepository.delete(taskId);
   }
 }

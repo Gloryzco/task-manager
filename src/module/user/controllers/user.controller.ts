@@ -5,9 +5,9 @@ import {
   ApiCreatedResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreatedUserResponseData, ResponseFormat } from 'src/shared';
 import { CreateUserDto } from '../dtos';
 import { UserService } from '../services';
+import { CreatedUserResponseData, ResponseFormat } from 'src/shared';
 
 @ApiTags('User')
 @Controller('user')

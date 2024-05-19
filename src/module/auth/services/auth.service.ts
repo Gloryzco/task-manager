@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RefreshTokenDto } from '../dtos';
 import * as argon from 'argon2';
 import { IAccessToken, IJwtPayload, IRefreshToken } from 'src/shared';
-import AppError from 'src/shared/utils/app-error.utils';
 import { UserService } from 'src/module/user';
 import configuration from 'src/config/configuration';
+import AppError from 'src/shared/utils/app-error.utils';
 
 const config = configuration();
 
@@ -58,11 +58,6 @@ export class AuthService {
 
   async refreshToken(payload: RefreshTokenDto) {
     console.log(payload.refreshToken);
-    // const { sub, email } = (await this.jwtService.verify(
-    //   payload.refreshToken,
-    //   config.jwt.refreshToken_secret as string,
-    // )) as IJwtPayload;
-
     const { sub, email } = await this.jwtService.verifyAsync<IJwtPayload>(
       payload.refreshToken,
       { secret: config.jwt.refreshTokenSecret },
@@ -73,18 +68,7 @@ export class AuthService {
     if (!user) {
       throw new AppError('0002', 'Invalid refresh token');
     }
-
-    // const refreshTokenMatches = await argon.verify(
-    //   user.refreshToken,
-    //   refreshToken as any,
-    // );
-    // if (!refreshTokenMatches) {
-    //   throw new AppError('0005', 'Access denied.');
-    // }
-
     const accessToken = await this.generateAccessToken(sub, email);
-    // await this.updateRefreshToken(user.id, tokens.refreshToken);
-
     return accessToken;
   }
 
@@ -101,7 +85,6 @@ export class AuthService {
     if (!user) {
       throw new AppError('0002', 'User not found');
     }
-    // const verifyPassword = await argon.verify(user.password, password);
     const verifyPassword = await user.correctPassword(password, user.password);
 
     if (!verifyPassword) {

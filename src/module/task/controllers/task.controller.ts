@@ -21,7 +21,6 @@ import { ResponseFormat, TaskResponseDto } from 'src/shared';
 import { AccessTokenGuard } from 'src/shared/guards';
 import { CreateTaskDto, UpdateTaskDto } from '../dtos';
 import { TaskService } from '../services';
-import { Task } from 'src/entities';
 
 @ApiBearerAuth('JWT')
 @UseGuards(AccessTokenGuard)

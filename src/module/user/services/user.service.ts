@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as argon from 'argon2';
-import { User } from 'src/entities';
 import { CreateUserDto } from '../dtos';
+import { User } from 'src/entities';
 import AppError from 'src/shared/utils/app-error.utils';
 
 @Injectable()

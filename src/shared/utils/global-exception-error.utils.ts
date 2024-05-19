@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseCodes, ResponseFormat } from 'src/shared';
-import AppError from './app-error.utils';
 import AppValidationError from './app-validation-error.utils';
+import AppError from './app-error.utils';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {

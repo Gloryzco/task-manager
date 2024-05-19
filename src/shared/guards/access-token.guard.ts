@@ -35,7 +35,7 @@ export class AccessTokenGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest(err: any, user: any, info: any, context: any) {
+  handleRequest(err: any, user: any) {
     if (err || !user) {
       throw new AppError('0005', 'Access token is missing or invalid.');
     }

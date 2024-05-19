@@ -17,7 +17,7 @@ export class CreatedUserResponseData {
     example: '2024-05-17 19:42:23.790482',
     description: 'Example date of creation',
   })
-  createdAt: string;
+  createdAt: Date;
 }
 
 export class LoginUserResponseData {
