@@ -7,12 +7,7 @@ import { UserModule } from '../user';
 
 @Module({
   imports: [JwtModule.register({}), UserModule],
-  providers: [
-    AuthService,
-    // LocalStrategy,
-    AccessTokenStrategy,
-    RefreshTokenStrategy,
-  ],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
   controllers: [AuthController],
   exports: [],
 })

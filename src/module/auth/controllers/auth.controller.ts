@@ -16,6 +16,7 @@ import {
 import { LoginDto, RefreshTokenDto } from '../dtos';
 import { AuthService } from '../services';
 import {
+  GetCurrentUserId,
   LoginUserResponseData,
   refreshTokenResponseData,
   ResponseFormat,
@@ -43,9 +44,12 @@ export class AuthController {
     description: 'Logged out successfully',
   })
   @Post('logout')
-  async logout(@Request() req, @Response() res): Promise<any> {
-    console.log(req.user);
-    const user_logout = await this.authService.logout(req.user['sub']);
+  async logout(
+    @Request() req,
+    @Response() res,
+    @GetCurrentUserId() userId: string,
+  ): Promise<any> {
+    const user_logout = await this.authService.logout(userId);
     ResponseFormat.successResponse(res, user_logout, 'User logged out');
   }
 

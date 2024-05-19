@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RefreshTokenDto } from '../dtos';
 import * as argon from 'argon2';
-import { IAccessToken, IJwtPayload, IRefreshToken } from 'src/shared';
+import { AccessToken, JwtPayload, RefreshToken } from 'src/shared';
 import { UserService } from 'src/module/user';
 import configuration from 'src/config/configuration';
 import AppError from 'src/shared/utils/app-error.utils';
@@ -19,8 +19,8 @@ export class AuthService {
   async generateAccessToken(
     userId: string,
     email: string,
-  ): Promise<IAccessToken> {
-    const jwtPayload: IJwtPayload = {
+  ): Promise<AccessToken> {
+    const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
     };
@@ -39,8 +39,8 @@ export class AuthService {
   async generateRefreshTokens(
     userId: string,
     email: string,
-  ): Promise<IRefreshToken> {
-    const jwtPayload: IJwtPayload = {
+  ): Promise<RefreshToken> {
+    const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
     };
@@ -58,7 +58,7 @@ export class AuthService {
 
   async refreshToken(payload: RefreshTokenDto) {
     console.log(payload.refreshToken);
-    const { sub, email } = await this.jwtService.verifyAsync<IJwtPayload>(
+    const { sub, email } = await this.jwtService.verifyAsync<JwtPayload>(
       payload.refreshToken,
       { secret: config.jwt.refreshTokenSecret },
     );
@@ -79,15 +79,15 @@ export class AuthService {
     });
   }
 
-  async login(loginDto: LoginDto): Promise<IAccessToken | IRefreshToken> {
+  async login(loginDto: LoginDto): Promise<AccessToken | RefreshToken> {
     const { email, password } = loginDto;
     const user = await this.userService.findByEmail(email);
     if (!user) {
       throw new AppError('0002', 'User not found');
     }
-    const verifyPassword = await user.correctPassword(password, user.password);
+    const isValidPassword = await user.verifyPassword(password, user.password);
 
-    if (!verifyPassword) {
+    if (!isValidPassword) {
       throw new AppError('0002', 'invalid credentials');
     }
 
@@ -100,7 +100,10 @@ export class AuthService {
       user.email,
     );
 
-    const tokens = { ...accessTokenDetails, ...refreshTokenDetails };
+    const tokens: AccessToken | RefreshToken = {
+      ...accessTokenDetails,
+      ...refreshTokenDetails,
+    };
     await this.updateRefreshToken(user.id, refreshTokenDetails.refreshToken);
     return tokens;
   }

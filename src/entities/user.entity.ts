@@ -40,11 +40,8 @@ export class User {
     };
   }
 
-  async correctPassword(userPassword: string, password: string) {
-    console.log(userPassword, 'userPassword');
-    console.log(password, 'passowrd');
-    const verifyPassword = await argon.verify(password, userPassword);
-    console.log(verifyPassword);
-    return verifyPassword;
+  async verifyPassword(userPassword: string, password: string) {
+    const isValidPassword = await argon.verify(password, userPassword);
+    return isValidPassword;
   }
 }

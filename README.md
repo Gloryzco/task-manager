@@ -51,7 +51,11 @@ $ npm install
 # REFRESH_TOKEN_SECRET = your refresh token secret
 # ACCESS_TOKEN_EXPIRATION = e.g. '15m'
 # REFRESH_TOKEN_EXPIRATION = e.g. '7d'
+```
 
+## Usage
+
+```sh
 # Run database migrations
 $ npm run migration:run
 
@@ -60,4 +64,13 @@ $ npm run start:dev
 
 # Run unit test
 $ npm run test
+
+# Testing the socket
+Locate and open the index.html file in the ./module/socket/gateways directory in a browser. Ensure that `const socket = io('http://localhost:3000');` uses the current port of your local. Once connected, any event (create, update, or delete) on a task will be emitted and outputted to the console.
+```
+
+## API Documentation
+```s
+SWAGGER>> localhost/<your-port>/documentation
+POSTMAN>> 
 ```

@@ -25,9 +25,7 @@ describe('TaskController', () => {
     json: jest.fn().mockReturnThis(),
   };
 
-  const mockRequest = {
-    user: { sub: 'userId' },
-  };
+  const mockUserId = 'userId';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -47,7 +45,7 @@ describe('TaskController', () => {
       .useValue({
         canActivate: jest.fn((context: ExecutionContext) => {
           const req = context.switchToHttp().getRequest();
-          req.user = mockRequest.user;
+          req.user['sub'] = mockUserId;
           return true;
         }),
       })
@@ -73,10 +71,10 @@ describe('TaskController', () => {
       mockTaskService.create.mockResolvedValue(createdTask);
       const responseSpy = jest.spyOn(ResponseFormat, 'successResponse');
 
-      await taskController.create(mockRequest, mockResponse, createTaskDto);
+      await taskController.create(mockUserId, mockResponse, createTaskDto);
 
       expect(taskService.create).toHaveBeenCalledWith(
-        mockRequest.user.sub,
+        mockUserId,
         createTaskDto,
       );
       expect(responseSpy).toHaveBeenCalledWith(
@@ -120,9 +118,9 @@ describe('TaskController', () => {
       mockTaskService.getAll.mockResolvedValue(tasks);
       const responseSpy = jest.spyOn(ResponseFormat, 'successResponse');
 
-      await taskController.getAll(mockRequest, mockResponse);
+      await taskController.getAll(mockUserId, mockResponse);
 
-      expect(taskService.getAll).toHaveBeenCalledWith(mockRequest.user.sub);
+      expect(taskService.getAll).toHaveBeenCalledWith(mockUserId);
       expect(responseSpy).toHaveBeenCalledWith(
         mockResponse,
         tasks,
@@ -146,12 +144,12 @@ describe('TaskController', () => {
       await taskController.update(
         taskId,
         updateTaskDto,
-        mockRequest,
+        mockUserId,
         mockResponse,
       );
 
       expect(taskService.update).toHaveBeenCalledWith(
-        mockRequest.user.sub,
+        mockUserId,
         taskId,
         updateTaskDto,
       );
@@ -175,12 +173,9 @@ describe('TaskController', () => {
       mockTaskService.delete.mockResolvedValue(deletedTask);
       const responseSpy = jest.spyOn(ResponseFormat, 'successResponse');
 
-      await taskController.delete(taskId, mockRequest, mockResponse);
+      await taskController.delete(taskId, mockUserId, mockResponse);
 
-      expect(taskService.delete).toHaveBeenCalledWith(
-        mockRequest.user.sub,
-        taskId,
-      );
+      expect(taskService.delete).toHaveBeenCalledWith(mockUserId, taskId);
       expect(responseSpy).toHaveBeenCalledWith(
         mockResponse,
         deletedTask,

@@ -3,21 +3,26 @@ import { Server } from 'socket.io';
 import { Injectable } from '@nestjs/common';
 import { TaskService } from 'src/module/task/services';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 @Injectable()
 export class SocketGateway {
   @WebSocketServer() server: Server;
 
   constructor(private readonly taskService: TaskService) {
-    // Listen for task events from TaskService and broadcast updates
-    this.taskService.taskCreatedEvent.on('taskCreated', (task) => {
-      this.server.emit('taskCreated', task);
+    this.taskService.taskEvent.on('task.created', (task) => {
+      this.server.emit('task.created', task);
     });
-    this.taskService.taskUpdatedEvent.on('taskUpdated', (updatedTask) => {
-      this.server.emit('taskUpdated', updatedTask);
+
+    this.taskService.taskEvent.on('task.updated', (updatedTask) => {
+      this.server.emit('task.updated', updatedTask);
     });
-    this.taskService.taskDeletedEvent.on('taskDeleted', ({ taskId }) => {
-      this.server.emit('taskDeleted', { taskId });
+
+    this.taskService.taskEvent.on('task.deleted', ({ taskId }) => {
+      this.server.emit('task.deleted', { taskId });
     });
   }
 }

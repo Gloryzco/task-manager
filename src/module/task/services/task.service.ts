@@ -14,9 +14,7 @@ export class TaskService {
     private readonly taskRepository: Repository<Task>,
     private readonly userService: UserService,
   ) {}
-  readonly taskCreatedEvent = new EventEmitter();
-  readonly taskUpdatedEvent = new EventEmitter();
-  readonly taskDeletedEvent = new EventEmitter();
+  readonly taskEvent = new EventEmitter();
 
   async create(userId, createTaskDto: CreateTaskDto): Promise<Partial<Task>> {
     const userExists = await this.userService.findById(userId);
@@ -37,7 +35,7 @@ export class TaskService {
       ...createTaskDto,
     });
     await this.taskRepository.insert(task);
-    this.taskCreatedEvent.emit(task as any);
+    this.taskEvent.emit('task.created', task as any);
     return task.toPayload();
   }
 
@@ -69,7 +67,7 @@ export class TaskService {
     const updatedTask = await this.taskRepository.findOne({
       where: { id: taskId },
     });
-    this.taskUpdatedEvent.emit(updatedTask as any);
+    this.taskEvent.emit('task.updated', updatedTask as any);
     if (!updatedTask) {
       throw new AppError('0002', 'Failed to update task');
     }
@@ -81,7 +79,7 @@ export class TaskService {
     if (!task || task.userId !== userId) {
       throw new AppError('0002', 'Task not found');
     }
-    this.taskDeletedEvent.emit({ taskId } as any);
+    this.taskEvent.emit('task.deleted', { taskId } as any);
     return this.taskRepository.delete(taskId);
   }
 }

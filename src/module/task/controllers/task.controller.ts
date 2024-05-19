@@ -1,7 +1,6 @@
 import {
   Controller,
   Body,
-  Request,
   Response,
   Post,
   UseGuards,
@@ -17,7 +16,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ResponseFormat, TaskResponseDto } from 'src/shared';
+import { GetCurrentUserId, ResponseFormat, TaskResponseDto } from 'src/shared';
 import { AccessTokenGuard } from 'src/shared/guards';
 import { CreateTaskDto, UpdateTaskDto } from '../dtos';
 import { TaskService } from '../services';
@@ -35,11 +34,10 @@ export class TaskController {
   })
   @Post()
   async create(
-    @Request() req,
+    @GetCurrentUserId() userId: string,
     @Response() res,
     @Body() createTaskDto: CreateTaskDto,
   ) {
-    const userId = req.user['sub'];
     const userLogin = await this.taskService.create(userId, createTaskDto);
     ResponseFormat.successResponse(res, userLogin, 'Task Created Successfully');
   }
@@ -59,8 +57,7 @@ export class TaskController {
     type: [TaskResponseDto],
   })
   @Get()
-  async getAll(@Request() req, @Response() res) {
-    const userId = req.user['sub'];
+  async getAll(@GetCurrentUserId() userId: string, @Response() res) {
     const task = await this.taskService.getAll(userId);
     ResponseFormat.successResponse(res, task, 'Task fetched successfully');
   }
@@ -73,10 +70,9 @@ export class TaskController {
   async update(
     @Query('taskId') taskId: string,
     @Body() updateTaskDto: UpdateTaskDto,
-    @Request() req,
+    @GetCurrentUserId() userId: string,
     @Response() res,
   ) {
-    const userId = req.user['sub'];
     const task = await this.taskService.update(userId, taskId, updateTaskDto);
     ResponseFormat.successResponse(res, task, 'Task udpdated successfully');
   }
@@ -85,10 +81,10 @@ export class TaskController {
   @Delete(':id')
   async delete(
     @Query('taskId') taskId: string,
-    @Request() req,
+    @GetCurrentUserId() userId: string,
     @Response() res,
   ) {
-    const userId = req.user['sub'];
+    console.log(userId);
     const task = await this.taskService.delete(userId, taskId);
     ResponseFormat.successResponse(res, task, 'Task deleted successfully');
   }
