@@ -1,9 +1,11 @@
 # Simple Task Management System
 
 ## Description
+
 A task management system that allows users to create, update, delete, and fetch tasks.
 
 ## Table of Contents
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
@@ -13,11 +15,13 @@ A task management system that allows users to create, update, delete, and fetch 
 ## Installation
 
 ### Prerequisites
+
 - Node.js
 - npm
 - MySQL
 
 ### Steps
+
 ```sh
 # Clone the repository
 $ git clone https://github.com/Gloryzco/niyo-task-manager-assessment.git
@@ -53,3 +57,7 @@ $ npm run migration:run
 
 # Start the application
 $ npm run start:dev
+
+# Run unit test
+$ npm run test
+```
