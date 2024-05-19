@@ -31,11 +31,25 @@ $ npm install
 # Set up environment variables
 # Create a .env file and add the required variables
 # Example:
-# DATABASE_URL=postgres://user:password@localhost:5432/taskdb
-# JWT_SECRET=yourjwtsecret
+
+# APP_NAME="TASK_MANAGER"
+# API_URL=
+# APP_DEBUG=true
+# APP_TIMEZONE=
+# APP_PORT=
+# DB_TYPE = mysql
+# DB_HOST = your database host
+# DB_PORT = your db port
+# DB_USER = your username
+# DB_PASSWORD = your password
+# DB_NAME = your db name
+# ACCESS_TOKEN_SECRET = your access token secret
+# REFRESH_TOKEN_SECRET = your refresh token secret
+# ACCESS_TOKEN_EXPIRATION = e.g. '15m'
+# REFRESH_TOKEN_EXPIRATION = e.g. '7d'
 
 # Run database migrations
-$ npm run typeorm migration:run
+$ npm run migration:run
 
 # Start the application
 $ npm run start:dev
