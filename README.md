@@ -20,10 +20,10 @@ A task management system that allows users to create, update, delete, and fetch 
 ### Steps
 ```sh
 # Clone the repository
-$ git clone https://github.com/yourusername/task-management-system.git
+$ git clone https://github.com/Gloryzco/niyo-task-manager-assessment.git
 
 # Navigate into the project directory
-$ cd task-management-system
+$ cd task-management
 
 # Install dependencies
 $ npm install
