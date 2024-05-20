@@ -28,6 +28,11 @@ export class UserController {
     @Body() createUserDto: CreateUserDto,
   ): Promise<any> {
     const new_user = await this.userService.create(createUserDto);
-    ResponseFormat.successResponse(res, new_user, 'User created successfully');
+    ResponseFormat.successResponse(
+      res,
+      new_user,
+      'User created successfully',
+      201,
+    );
   }
 }

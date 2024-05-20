@@ -9,8 +9,6 @@ A task management system that allows users to create, update, delete, and fetch 
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -27,7 +25,7 @@ A task management system that allows users to create, update, delete, and fetch 
 $ git clone https://github.com/Gloryzco/niyo-task-manager-assessment.git
 
 # Navigate into the project directory
-$ cd task-management
+$ cd niyo-task-manager-assessment
 
 # Install dependencies
 $ npm install
@@ -40,7 +38,7 @@ $ npm install
 # API_URL=
 # APP_DEBUG=true
 # APP_TIMEZONE=
-# APP_PORT=
+# APP_PORT=3033
 # DB_TYPE = mysql
 # DB_HOST = your database host
 # DB_PORT = your db port
@@ -56,6 +54,9 @@ $ npm install
 ## Usage
 
 ```sh
+# build the application
+$ npm run build
+
 # Run database migrations
 $ npm run migration:run
 
@@ -66,11 +67,12 @@ $ npm run start:dev
 $ npm run test
 
 # Testing the socket
-Locate and open the index.html file in the ./module/socket/gateways directory in a browser. Ensure that `const socket = io('http://localhost:3000');` uses the current port of your local. Once connected, any event (create, update, or delete) on a task will be emitted and outputted to the console.
+Locate and open the index.html file in the ./module/socket/gateways directory in a browser. Ensure that `const socket = io('http://localhost:3033');` uses the current port of your local. Once connected, any event (create, update, or delete) on a task will be emitted and outputted to the console.
 ```
 
 ## API Documentation
+
 ```s
-SWAGGER>> localhost/<your-port>/documentation
-POSTMAN>> 
+SWAGGER>> http://localhost:3033/documentation
+POSTMAN>> https://documenter.getpostman.com/view/3821701/2sA3QmEFEZ
 ```

@@ -22,7 +22,11 @@ export class Task {
   @Column({ nullable: true })
   description?: string;
 
-  @Column({ default: 'new' }) // new, in-progress, completed
+  @Column({
+    type: 'enum',
+    enum: ['in-progress', 'active', 'completed', 'closed', 'drafted'],
+    default: 'in-progress',
+  })
   status: string;
 
   @Column({ nullable: true })

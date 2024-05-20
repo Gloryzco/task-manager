@@ -54,30 +54,8 @@ describe('UserController', () => {
         mockResponse,
         createdUser,
         'User created successfully',
+        201,
       );
     });
-
-    // it('should return a bad request response if userService.create throws an error', async () => {
-    //   const createUserDto: CreateUserDto = {
-    //     email: 'test@test.com',
-    //     password: '12345',
-    //   };
-    //   const errorMessage = 'Request failed';
-
-    //   mockUserService.create.mockRejectedValue(errorMessage);
-    //   const statusSpy = jest.spyOn(mockResponse, 'status');
-    //   const jsonSpy = jest.spyOn(mockResponse, 'json');
-
-    //   await userController.create(mockResponse, createUserDto);
-
-    //   expect(userService.create).toHaveBeenCalledWith(createUserDto);
-    //   expect(statusSpy).toHaveBeenCalledWith(400);
-    //   expect(jsonSpy).toHaveBeenCalledWith({
-    //     type: 'error',
-    //     status: 'FAIL',
-    //     code: '02',
-    //     message: 'Request failed',
-    //   });
-    // });
   });
 });

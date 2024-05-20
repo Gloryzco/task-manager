@@ -88,8 +88,6 @@ describe('UserService', () => {
       );
 
       expect(userService.findByEmail).toHaveBeenCalledWith(createUserDto.email);
-      //   expect(mockUserRepository.create).not.toHaveBeenCalled();
-      //   expect(mockUserRepository.insert).not.toHaveBeenCalled();
     });
   });
 

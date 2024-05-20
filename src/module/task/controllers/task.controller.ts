@@ -17,9 +17,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetCurrentUserId, ResponseFormat, TaskResponseDto } from 'src/shared';
-import { AccessTokenGuard } from 'src/shared/guards';
 import { CreateTaskDto, UpdateTaskDto } from '../dtos';
 import { TaskService } from '../services';
+import { AccessTokenGuard } from 'src/shared/guards';
 
 @ApiBearerAuth('JWT')
 @UseGuards(AccessTokenGuard)
@@ -39,7 +39,12 @@ export class TaskController {
     @Body() createTaskDto: CreateTaskDto,
   ) {
     const userLogin = await this.taskService.create(userId, createTaskDto);
-    ResponseFormat.successResponse(res, userLogin, 'Task Created Successfully');
+    ResponseFormat.successResponse(
+      res,
+      userLogin,
+      'Task Created Successfully',
+      201,
+    );
   }
 
   @ApiOkResponse({
@@ -84,7 +89,6 @@ export class TaskController {
     @GetCurrentUserId() userId: string,
     @Response() res,
   ) {
-    console.log(userId);
     const task = await this.taskService.delete(userId, taskId);
     ResponseFormat.successResponse(res, task, 'Task deleted successfully');
   }

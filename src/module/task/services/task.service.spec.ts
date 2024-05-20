@@ -143,16 +143,6 @@ describe('TaskService', () => {
         description: 'Test Description',
       });
     });
-
-    // it('should throw an error if the task is not found', async () => {
-    //   const taskId = '1';
-
-    //   mockTaskRepository.findOne.mockResolvedValue(null);
-
-    //   await expect(taskService.getTaskById(taskId)).rejects.toThrow(
-    //     new AppError('0002', 'Task not found'),
-    //   );
-    // });
   });
 
   describe('getAll', () => {
@@ -241,39 +231,4 @@ describe('TaskService', () => {
       ).rejects.toThrow(new AppError('0002', 'Task not found'));
     });
   });
-
-  //   describe('delete', () => {
-  //     it('should delete a task successfully', async () => {
-  //       const userId = 'userId';
-  //       const taskId = '1';
-  //       const task = {
-  //         id: taskId,
-  //         userId,
-  //         title: 'Test Task',
-  //         description: 'Test Description',
-  //       };
-
-  //       mockTaskRepository.findOne.mockResolvedValue(task);
-  //       mockTaskRepository.delete.mockResolvedValue({ affected: 1 });
-
-  //       const result = await taskService.delete(userId, taskId);
-
-  //       //   expect(taskRepository.findOne).toHaveBeenCalledWith({
-  //       //     where: { id: taskId },
-  //       //   });
-  //       expect(taskRepository.delete).toHaveBeenCalledWith(taskId);
-  //       expect(result).toEqual({ affected: 1 });
-  //     });
-
-  //     it('should throw an error if the task is not found', async () => {
-  //       const userId = 'userId';
-  //       const taskId = '1';
-
-  //       mockTaskRepository.findOne.mockResolvedValue(null);
-
-  //       await expect(taskService.delete(userId, taskId)).rejects.toThrow(
-  //         new AppError('0002', 'Task not found'),
-  //       );
-  //     });
-  //   });
 });

@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Body,
-  Request,
-  Response,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Body, Response, Post, UseGuards } from '@nestjs/common';
 
 import {
   ApiBearerAuth,
@@ -33,7 +26,7 @@ export class AuthController {
     type: LoginUserResponseData,
   })
   @Post('login')
-  async login(@Request() req, @Response() res, @Body() loginDto: LoginDto) {
+  async login(@Response() res, @Body() loginDto: LoginDto) {
     const user_login = await this.authService.login(loginDto);
     ResponseFormat.successResponse(res, user_login, 'User logged in');
   }
@@ -45,7 +38,6 @@ export class AuthController {
   })
   @Post('logout')
   async logout(
-    @Request() req,
     @Response() res,
     @GetCurrentUserId() userId: string,
   ): Promise<any> {
@@ -62,7 +54,6 @@ export class AuthController {
   @ApiNotFoundResponse({ description: 'User Rrcord not found' })
   @Post('refresh-token')
   async refreshToken(
-    @Request() req,
     @Response() res,
     @Body() refreshToken: RefreshTokenDto,
   ): Promise<any> {

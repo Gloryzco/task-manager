@@ -57,7 +57,6 @@ export class AuthService {
   }
 
   async refreshToken(payload: RefreshTokenDto) {
-    console.log(payload.refreshToken);
     const { sub, email } = await this.jwtService.verifyAsync<JwtPayload>(
       payload.refreshToken,
       { secret: config.jwt.refreshTokenSecret },
@@ -110,9 +109,8 @@ export class AuthService {
 
   async logout(userId: string): Promise<boolean> {
     const user = await this.userService.findById(userId);
-
-    if (!user) {
-      throw new AppError('0005', 'Record Not Found.');
+    if (!user || !user.refreshToken) {
+      throw new AppError('0005', 'Access denied. Login required');
     }
 
     await this.userService.update(userId, { refreshToken: null });
