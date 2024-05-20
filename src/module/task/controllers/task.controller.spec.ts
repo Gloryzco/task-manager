@@ -45,7 +45,7 @@ describe('TaskController', () => {
       .useValue({
         canActivate: jest.fn((context: ExecutionContext) => {
           const req = context.switchToHttp().getRequest();
-          req.user = { sub: mockUserId };
+          req.user['sub'] = mockUserId;
           return true;
         }),
       })
@@ -98,7 +98,7 @@ describe('TaskController', () => {
       mockTaskService.getTaskById.mockResolvedValue(task);
       const responseSpy = jest.spyOn(ResponseFormat, 'successResponse');
 
-      await taskController.getById(mockResponse, { taskId } as any);
+      await taskController.getById(mockResponse, taskId);
 
       expect(taskService.getTaskById).toHaveBeenCalledWith(taskId);
       expect(responseSpy).toHaveBeenCalledWith(
@@ -143,7 +143,7 @@ describe('TaskController', () => {
       const responseSpy = jest.spyOn(ResponseFormat, 'successResponse');
 
       await taskController.update(
-        { taskId } as any,
+        taskId,
         updateTaskDto,
         mockUserId,
         mockResponse,
@@ -157,7 +157,7 @@ describe('TaskController', () => {
       expect(responseSpy).toHaveBeenCalledWith(
         mockResponse,
         updatedTask,
-        'Task updated successfully',
+        'Task udpdated successfully',
       );
     });
   });
@@ -174,7 +174,7 @@ describe('TaskController', () => {
       mockTaskService.delete.mockResolvedValue(deletedTask);
       const responseSpy = jest.spyOn(ResponseFormat, 'successResponse');
 
-      await taskController.delete({ taskId } as any, mockUserId, mockResponse);
+      await taskController.delete(taskId, mockUserId, mockResponse);
 
       expect(taskService.delete).toHaveBeenCalledWith(mockUserId, taskId);
       expect(responseSpy).toHaveBeenCalledWith(

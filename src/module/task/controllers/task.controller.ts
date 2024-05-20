@@ -21,8 +21,8 @@ import { CreateTaskDto, UpdateTaskDto } from '../dtos';
 import { TaskService } from '../services';
 import { AccessTokenGuard } from 'src/shared/guards';
 
-@ApiBearerAuth('JWT')
 @UseGuards(AccessTokenGuard)
+@ApiBearerAuth('JWT')
 @ApiTags('Task')
 @Controller('task')
 export class TaskController {
