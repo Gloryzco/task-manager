@@ -76,3 +76,5 @@ Locate and open the index.html file in the ./module/socket/gateways directory in
 SWAGGER>> http://localhost:3033/documentation
 POSTMAN>> https://documenter.getpostman.com/view/3821701/2sA3QmEFEZ
 ```
+
+THANK YOU 😊
